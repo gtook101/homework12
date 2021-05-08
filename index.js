@@ -1,19 +1,6 @@
-const mysql = require("mysql");
+//"front end" inquirer, displaying stuff in the console
+const connection = require("./db/connection.js");
 
-const connection = mysql.createConnection({
-  host: "localhost",
-
-  port: 3306,
-
-  user: "root",
-
-  password: "",
-  database: "department_db",
-});
-
-const inquirer = require("inquirer");
-const fs = require("fs");
-const util = require("util");
 const {
   firstQuestion,
   addDepartment,
@@ -24,9 +11,7 @@ const {
   viewEmployees,
   updateEmployeeRoles,
 } = require("./questions.js");
-// create writeFile function using promises instead of a callback function
-//const writeFileAsync = util.promisify(fs.writeFile);
-console.log(firstQuestion);
+const inquirer = require("inquirer");
 const firstQuestionFunc = () => {
   inquirer.prompt(firstQuestion).then((answer) => {
     if (answer.role === "Add Departments") {
@@ -59,7 +44,10 @@ firstQuestionFunc();
 function addDepartmentFunc() {
   inquirer.prompt(addDepartment).then((answers) => {
     console.log(answers);
-    firstQuestionFunc();
+    forEach(({id, name}) => {
+      console.log(`${id} | ${name}`);
+      firstQuestionFunc();
+    });
   });
 }
 
@@ -78,23 +66,29 @@ function addEmployeesFunc() {
 }
 
 function viewDepartmentsFunc() {
-  inquirer.prompt(viewDepartments).then((answers) => {
-    console.log(answers);
-    firstQuestionFunc();
+  console.log("view all Departments...\n");
+  connection.query("SELECT * FROM names", (err, res) => {
+    if (err) throw err;
+    console.log(res);
+    connection.end();
   });
 }
 
 function viewRolesFunc() {
-  inquirer.prompt(viewRoles).then((answers) => {
-    console.log(answers);
-    firstQuestionFunc();
+  console.log("view all Roles...\n");
+  connection.query("SELECT * FROM role", (err, res) => {
+    if (err) throw err;
+    console.log(res);
+    connection.end();
   });
 }
 
 function viewEmployeesFunc() {
-  inquirer.prompt(viewEmployees).then((answers) => {
-    console.log(answers);
-    firstQuestionFunc();
+  console.log("view all Employees...\n");
+  connection.query("SELECT * FROM employee", (err, res) => {
+    if (err) throw err;
+    console.log(res);
+    connection.end();
   });
 }
 
