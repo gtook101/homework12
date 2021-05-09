@@ -43,24 +43,25 @@ firstQuestionFunc();
 
 function addDepartmentFunc() {
   inquirer.prompt(addDepartment).then((answers) => {
-    console.log(answers);
-    forEach(({id, name}) => {
-      console.log(`${id} | ${name}`);
-      firstQuestionFunc();
-    });
+    let sql = "insert into department values (`${name}`)";
+    //forEach(({ id, name }) => {
+    //console.log(`${id} | ${name}`);
+    firstQuestionFunc();
   });
 }
 
 function addRolesFunc() {
   inquirer.prompt(addRoles).then((answers) => {
-    console.log(answers);
+    let sql =
+      "insert into role values (`${title} | ${salary} | ${department_id}`)";
     firstQuestionFunc();
   });
 }
 
 function addEmployeesFunc() {
   inquirer.prompt(addEmployees).then((answers) => {
-    console.log(answers);
+    let sql =
+      "insert into role values (`${first_name} | ${last_name} | ${role_id} | ${manager_id}`)";
     firstQuestionFunc();
   });
 }
@@ -68,7 +69,7 @@ function addEmployeesFunc() {
 function viewDepartmentsFunc() {
   console.log("view all Departments...\n");
   connection.query("SELECT * FROM names", (err, res) => {
-    if (err) throw err;
+    //if (err) throw err;
     console.log(res);
     connection.end();
   });
